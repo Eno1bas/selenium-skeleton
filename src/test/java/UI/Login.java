@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.swing.*;
 import java.time.Duration;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,6 +28,8 @@ class Login {
     void setupAll() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        StringBuffer a = new StringBuffer();
+
     }
 
 
@@ -56,6 +59,12 @@ class Login {
         driver.get("https://parabank.parasoft.com/parabank/index.htm");
         driver.findElement(By.xpath("//*[@id='loginPanel']/p[2]/a")).click();
 
+        Random r = new Random();
+        int randomNum = r.nextInt(1000);
+
+        String username = "Eno" + randomNum;
+        String password = "QWERTY" + randomNum;
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.firstName"))).sendKeys("EN0");
@@ -66,17 +75,32 @@ class Login {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.zipCode"))).sendKeys("CCCCC");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.phoneNumber"))).sendKeys("000000");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.ssn"))).sendKeys("000000");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.username"))).sendKeys("Eno");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.password"))).sendKeys("QWERTY");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("repeatedPassword"))).sendKeys("QWERTY");
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.username"))).sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.password"))).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("repeatedPassword"))).sendKeys(password);
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"customerForm\"]/table/tbody/tr[13]/td[2]/input"))).click();
-        assertTrue(driver.findElement(By.className("title")).getText().equals("ParaSoft Demo Website"));
+
+
+
         WebElement userNameField = driver.findElement(By.name("username"));
-        userNameField.sendKeys("Eno");
+        userNameField.sendKeys(username);
+
         WebElement passwordField = driver.findElement(By.name("password"));
-        passwordField.sendKeys("QWERTY");
-        driver.findElement(By.xpath("//input[@value='Log In']")).click();
+        passwordField.sendKeys(password);
+
+        driver.findElement(By.className("colspan")).click();
+
+        WebElement logOutElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Log Out']")));
+
+        String pageTitle = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/ul/li[8]/a")).getAttribute("Log Out");
+        assertTrue(pageTitle.contains("Log Out"), "Registration failed, expected welcome message missing.");
     }
+
+
+
+}
 //
 //    @Test
 //    Void services()throws InterruptedException{
@@ -86,7 +110,7 @@ class Login {
 //        new Actions(driver).scrollToElement(iframe).perform();
 //        assertTrue(driver.getTitle());
 //    }
-}
+
 
 
 
