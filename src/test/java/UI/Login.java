@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import javax.swing.*;
 import java.time.Duration;
 import java.util.Random;
+import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -92,10 +93,9 @@ class Login {
 
         driver.findElement(By.className("colspan")).click();
 
-        WebElement logOutElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Log Out']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[3]/div[1]/ul/li[8]/a")));
 
-        String pageTitle = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/ul/li[8]/a")).getAttribute("Log Out");
-        assertTrue(pageTitle.contains("Log Out"), "Registration failed, expected welcome message missing.");
+        assertTrue(driver.findElement(By.xpath("//*[@id=\"leftPanel\"]/ul/li[2]/a")).getText().contains("Accounts Overview"));
     }
 
 
@@ -109,6 +109,8 @@ class Login {
 //        WebElement iframe = driver.findElement(By.xpath("//*[@id=\"rightPanel\"]/table[2]/tbody/tr[2]/td[1]"));
 //        new Actions(driver).scrollToElement(iframe).perform();
 //        assertTrue(driver.getTitle());
+//WebElement accountOverview = wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Accounts Overview")));
+//assertTrue(accountOverview.isDisplayed(), "User should see the 'Accounts Overview' page after login.");
 //    }
 
 
