@@ -21,6 +21,8 @@ import java.util.function.BooleanSupplier;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import Pages.registrationPage;
+
 @Nested
 class Login {
     WebDriver driver;
@@ -56,63 +58,72 @@ class Login {
     }
 
     @Test
-    void registration() throws InterruptedException {
+    void registration() {
         driver.get("https://parabank.parasoft.com/parabank/index.htm");
-        driver.findElement(By.xpath("//*[@id='loginPanel']/p[2]/a")).click();
+        registrationPage.register(driver).click();
 
         Random r = new Random();
         int randomNum = r.nextInt(1000);
-
-        String username = "Eno" + randomNum;
-        String password = "QWERTY" + randomNum;
+        String username = "Eno" + randomNum, password = "QWERTY" + randomNum;
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.firstName"))).sendKeys("EN0");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.lastName"))).sendKeys("IBAS");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.street"))).sendKeys("XXXXX");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.city"))).sendKeys("AAAAA");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.state"))).sendKeys("BBBBB");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.zipCode"))).sendKeys("CCCCC");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.phoneNumber"))).sendKeys("000000");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.ssn"))).sendKeys("000000");
+        String[][] fields = {
+                {"customer.firstName", "EN0"},
+                {"customer.lastName", "IBAS"},
+                {"customer.address.street", "XXXXX"},
+                {"customer.address.city", "AAAAA"},
+                {"customer.address.state", "BBBBB"},
+                {"customer.address.zipCode", "CCCCC"},
+                {"customer.phoneNumber", "000000"},
+                {"customer.ssn", "000000"},
+                {"customer.username", username},
+                {"customer.password", password},
+                {"repeatedPassword", password}
+        };
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.username"))).sendKeys(username);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.password"))).sendKeys(password);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("repeatedPassword"))).sendKeys(password);
+        for (String[] field : fields) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(field[0]))).sendKeys(field[1]);
+        }
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"customerForm\"]/table/tbody/tr[13]/td[2]/input"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"customerForm\"]/table/tbody/tr[13]/td[2]/input"))).click();
 
-
-
-        WebElement userNameField = driver.findElement(By.name("username"));
-        userNameField.sendKeys(username);
-
-        WebElement passwordField = driver.findElement(By.name("password"));
-        passwordField.sendKeys(password);
-
-        driver.findElement(By.className("colspan")).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[3]/div[1]/ul/li[8]/a")));
-
-        assertTrue(driver.findElement(By.xpath("//*[@id=\"leftPanel\"]/ul/li[2]/a")).getText().contains("Accounts Overview"));
+        assertTrue(driver.findElement(By.tagName("h1")).getText().contains("Welcome Eno"));
     }
-
-
-
 }
-//
-//    @Test
-//    Void services()throws InterruptedException{
-//        driver.get("https://parabank.parasoft.com/parabank/index.htm");
-//        driver.findElement(By.xpath("//*[@id=\"headerPanel\"]/ul[1]/li[3]/a")).click();
-//        WebElement iframe = driver.findElement(By.xpath("//*[@id=\"rightPanel\"]/table[2]/tbody/tr[2]/td[1]"));
-//        new Actions(driver).scrollToElement(iframe).perform();
-//        assertTrue(driver.getTitle());
-//WebElement accountOverview = wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Accounts Overview")));
-//assertTrue(accountOverview.isDisplayed(), "User should see the 'Accounts Overview' page after login.");
-//    }
 
+//    @Test
+//    void registration() throws InterruptedException {
+//        driver.get("https://parabank.parasoft.com/parabank/index.htm");
+//        driver.findElement(By.xpath("//*[@id='loginPanel']/p[2]/a")).click();
+//
+//        Random r = new Random();
+//        int randomNum = r.nextInt(1000);
+//
+//        String username = "Eno" + randomNum;
+//        String password = "QWERTY" + randomNum;
+//
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+//
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.firstName"))).sendKeys("EN0");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.lastName"))).sendKeys("IBAS");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.street"))).sendKeys("XXXXX");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.city"))).sendKeys("AAAAA");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.state"))).sendKeys("BBBBB");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.address.zipCode"))).sendKeys("CCCCC");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.phoneNumber"))).sendKeys("000000");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.ssn"))).sendKeys("000000");
+//
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.username"))).sendKeys(username);
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("customer.password"))).sendKeys(password);
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("repeatedPassword"))).sendKeys(password);
+//
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"customerForm\"]/table/tbody/tr[13]/td[2]/input"))).click();
+//
+//
+//        assertTrue(driver.findElement(By.tagName("h1")).getText().contains("Welcome Eno"));
+//    }
+//}
 
 
 
