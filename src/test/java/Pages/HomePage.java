@@ -4,11 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class registrationPage {
+public class HomePage {
 
-    public static WebElement register(WebDriver driver) {
+
+    public void goToRegistrationPage(WebDriver driver) {
 
        WebElement element = driver.findElement(By.xpath("//*[@id='loginPanel']/p[2]/a"));
-       return element;
+       element.click();
     }
 }
