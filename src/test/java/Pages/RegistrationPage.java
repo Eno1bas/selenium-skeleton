@@ -29,7 +29,6 @@ public class RegistrationPage {
                 {"customer.password", password},
                 {"repeatedPassword", password}
         };
-
         for (String[] field : fields) {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(field[0]))).sendKeys(field[1]);
         }
