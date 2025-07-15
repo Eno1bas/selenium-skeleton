@@ -7,20 +7,15 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import Pages.HomePage;
-import Pages.servicesPage;
-import Pages.locationsPage;
-import Pages.aboutUsPage;
-import Pages.productsPage;
+import Pages.*;
 
 @Nested
 class Login {
@@ -45,10 +40,21 @@ class Login {
     }
 
     @Test
-    void servicePageTests() {
+    void servicePageTest() {
+        HomePage homePage = new HomePage();
+        ServicesPage servPage = homePage.loadHomePage(driver).takeMeToServicePage(driver);
         driver.get("https://parabank.parasoft.com/parabank/index.htm");
-        servicesPage.service(driver);
+        servPage.goToServicePage(driver);
         assertTrue( driver.findElement(By.className("porttypename")).getText().contains("Bookstore"));
+    }
+
+    @Test
+    void adminPageTest(){
+        HomePage homePage = new HomePage();
+        AdminPage abPage = homePage.loadHomePage(driver).takeMeToAdminPage(driver);
+        driver.get("https://parabank.parasoft.com/parabank/index.htm");
+       abPage.goToAdminPage(driver);
+        assertTrue(driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[2]/table/tbody/tr/td[1]/h3")).getText().contains("Database"));
     }
 }
 
