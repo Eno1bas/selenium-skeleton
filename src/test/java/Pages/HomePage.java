@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 public class HomePage {
 
     public HomePage loadHomePage(WebDriver driver) {
-        driver.get("https://para.testar.org/parabank/index.htm");
+        driver.get("https://parabank.parasoft.com/parabank/index.htm");
         return new HomePage();
     }
 
