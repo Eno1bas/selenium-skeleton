@@ -1,39 +1,23 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-public class HomePage {
+public class HomePage extends SharedLogin {
+    private SharedNavigation navigation = new SharedNavigation();
 
-    public HomePage loadHomePage(WebDriver driver) {
-        driver.get("https://parabank.parasoft.com/parabank/index.htm");
-        return new HomePage();
+    public SharedNavigation.AdminPage goToAdminPage(WebDriver driver) {
+        return navigation.goToAdminPage(driver);
     }
 
-    public RegistrationPage goToRegistrationPage(WebDriver driver) {
-        WebElement element = driver.findElement(By.xpath("//*[@id='loginPanel']/p[2]/a"));
-        element.click();
-        return new RegistrationPage();
+    public SharedNavigation.ServicesPage goToServicePage(WebDriver driver) {
+        return navigation.goToServicePage(driver);
     }
 
-    public AdminPage goToAdminPage(WebDriver driver) {
-        driver.findElement(By.linkText("Admin Page")).click();
-        return new AdminPage();
+    public SharedNavigation.LocationsPage goToLocationPage(WebDriver driver) {
+        return navigation.goToLocationPage(driver);
     }
 
-    public ServicesPage goToServicePage(WebDriver driver) {
-        driver.findElement(By.linkText("Services")).click();
-        return new ServicesPage();
-    }
-
-    public LocationsPage goToLocationPage(WebDriver driver) {
-        driver.findElement(By.linkText("Locations")).click();
-        return new LocationsPage();
-    }
-
-    public ProductsPage goToProductPage(WebDriver driver) {
-        driver.findElement(By.xpath("/html/body/div[1]/div[2]/ul[1]/li[4]/a")).click();
-        return new ProductsPage();
+    public SharedNavigation.ProductsPage goToProductPage(WebDriver driver) {
+        return navigation.goToProductPage(driver);
     }
 }
